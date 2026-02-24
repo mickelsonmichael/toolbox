@@ -23,48 +23,56 @@
       <div class="col-12">
         <h1 class="h3 mb-3"><i class="fa-solid fa-link me-2"></i>URL Encoder/Decoder</h1>
 
-        <div class="card">
+        <div class="card mb-3">
+          <tool-panel-header icon="fa-solid fa-sliders" title="Options"></tool-panel-header>
           <div class="card-body">
-            <div class="row g-3 panel-grid">
-              <div class="col-12 col-lg-6">
-                <div class="panel-block h-100">
-                  <div class="d-flex align-items-center justify-content-between mb-2">
-                    <label class="form-label mb-0" for="urlModeSwitch">Full URL Mode</label>
-                    <div class="form-check form-switch m-0">
-                      <input class="form-check-input" type="checkbox" role="switch" id="urlModeSwitch">
-                    </div>
-                  </div>
-                  <p class="small text-body-secondary mb-3" id="modeHint">Using component mode (`encodeURIComponent` / `decodeURIComponent`).</p>
-
-                  <label for="inputText" class="form-label">Input</label>
-                  <textarea id="inputText" class="form-control panel-textarea" rows="14" placeholder="Enter URL or component..."></textarea>
-
-                  <div class="d-flex align-items-center gap-2 mt-3 mb-2">
-                    <span class="small text-body-secondary">Encode</span>
-                    <div class="form-check form-switch m-0 neutral-switch">
-                      <input class="form-check-input" type="checkbox" role="switch" id="operationSwitch" aria-label="Toggle encode or decode mode">
-                    </div>
-                    <span class="small text-body-secondary">Decode</span>
-                  </div>
-
-                  <div class="d-flex flex-wrap gap-2 mt-3">
-                    <button class="btn btn-outline-dark" id="swapBtn" type="button"><i class="fa-solid fa-right-left me-1"></i>Swap</button>
-                    <button class="btn btn-outline-danger" id="clearBtn" type="button"><i class="fa-solid fa-eraser me-1"></i>Clear</button>
+            <div class="row g-3">
+              <div class="col-12 col-sm-6">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <label class="form-label mb-0" for="urlModeSwitch">Full URL Mode</label>
+                  <div class="form-check form-switch m-0">
+                    <input class="form-check-input" type="checkbox" role="switch" id="urlModeSwitch">
                   </div>
                 </div>
+                <p class="small text-body-secondary mb-0" id="modeHint">Using component mode (`encodeURIComponent` / `decodeURIComponent`).</p>
               </div>
-
-              <div class="col-12 col-lg-6">
-                <div class="panel-block h-100">
-                  <label for="outputText" class="form-label">Output</label>
-                  <textarea id="outputText" class="form-control panel-textarea" rows="14" readonly></textarea>
+              <div class="col-12 col-sm-6 d-flex align-items-sm-center">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="small text-body-secondary">Encode</span>
+                  <div class="form-check form-switch m-0 neutral-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="operationSwitch" aria-label="Toggle encode or decode mode">
+                  </div>
+                  <span class="small text-body-secondary">Decode</span>
                 </div>
               </div>
             </div>
-
-            <p id="status" class="small mt-3 mb-0 text-body-secondary">Ready.</p>
           </div>
         </div>
+
+        <div class="row g-3 panel-grid">
+          <div class="col-12 col-lg-6">
+            <div class="card h-100">
+              <tool-panel-header icon="fa-solid fa-file-import" title="Input">
+                <button slot="actions" class="btn btn-outline-dark" id="swapBtn" type="button"><i class="fa-solid fa-right-left me-1"></i>Swap</button>
+                <button slot="actions" class="btn btn-outline-danger" id="clearBtn" type="button"><i class="fa-solid fa-eraser me-1"></i>Clear</button>
+              </tool-panel-header>
+              <div class="card-body">
+                <textarea id="inputText" class="form-control panel-textarea" rows="14" placeholder="Enter URL or component..." aria-label="Input"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-6">
+            <div class="card h-100">
+              <tool-panel-header icon="fa-solid fa-file-export" title="Output"></tool-panel-header>
+              <div class="card-body">
+                <textarea id="outputText" class="form-control panel-textarea" rows="14" readonly aria-label="Output"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p id="status" class="small mt-3 mb-0 text-body-secondary">Ready.</p>
       </div>
     </div>
   </toolbox-layout>

@@ -40,11 +40,6 @@ body {
   cursor: pointer;
 }
 
-.theme-switch .form-check-label {
-  cursor: pointer;
-  user-select: none;
-}
-
 .neutral-switch .form-check-input {
   cursor: pointer;
 }
@@ -53,4 +48,19 @@ body {
 .neutral-switch .form-check-input:checked {
   background-color: var(--bs-tertiary-bg);
   border-color: var(--bs-border-color);
+}
+
+.tool-panel-header {
+  border-bottom: 1px solid var(--bs-border-color);
+  padding: 0.9rem 1rem;
+}
+
+.tool-panel-header i {
+  font-size: 1.1rem;
+}
+
+.tool-panel-actions .btn {
+  --bs-btn-padding-y: 0.25rem;
+  --bs-btn-padding-x: 0.6rem;
+  --bs-btn-font-size: 0.8rem;
 }

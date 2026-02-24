@@ -22,89 +22,18 @@
 
     <div class="card mb-3">
       <div class="card-body">
-        <h2 class="h5 mb-1">2026-02-24</h2>
-        <p class="text-body-secondary mb-2">Automatic processing and navbar polish.</p>
-        <ul class="mb-0">
-          <li>Made Base64 and URL encode/decode operations run automatically as input or mode switches change.</li>
-          <li>Removed manual Run/Play buttons from encoding and decoding tools.</li>
-          <li>Updated top-nav dark mode control to use a sun icon and removed the "Dark" label text.</li>
-          <li>Changed the navbar Changelog control from a button style to a standard text link.</li>
-        </ul>
-      </div>
-    </div>
+        <h2 class="h5 mb-3">2026-02-24</h2>
 
-    <div class="card mb-3">
-      <div class="card-body">
-        <h2 class="h5 mb-1">2026-02-24</h2>
-        <p class="text-body-secondary mb-2">Encoder/decoder control simplification.</p>
-        <ul class="mb-0">
-          <li>Replaced separate encode/decode buttons with a single operation switch and one Run button.</li>
-          <li>Applied the switch pattern to Base64 and URL tools.</li>
-          <li>Styled operation switches with a neutral checked state (no active highlight color).</li>
+        <h3 class="h6 mb-1">All Tools</h3>
+        <ul>
+          <li>Added reusable panel headers with icons and header action slots.</li>
+          <li>Standardized options card + separate input/output cards layout.</li>
+          <li>Moved clear actions into input header action buttons.</li>
         </ul>
-      </div>
-    </div>
 
-    <div class="card mb-3">
-      <div class="card-body">
-        <h2 class="h5 mb-1">2026-02-24</h2>
-        <p class="text-body-secondary mb-2">Two-panel tool layout.</p>
+        <h3 class="h6 mb-1">Bugfix</h3>
         <ul class="mb-0">
-          <li>Updated tools to a clearer left/right panel grid.</li>
-          <li>Standardized input panel on the left and output panel on the right.</li>
-          <li>Kept mobile behavior responsive by stacking panels.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card mb-3">
-      <div class="card-body">
-        <h2 class="h5 mb-1">2026-02-24</h2>
-        <p class="text-body-secondary mb-2">Web component layout sharing.</p>
-        <ul class="mb-0">
-          <li>Added shared `toolbox-layout` custom element for nav/main shell.</li>
-          <li>Migrated all pages to consume shared layout wrapper.</li>
-          <li>Centralized repeated navbar markup in one place.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card mb-3">
-      <div class="card-body">
-        <h2 class="h5 mb-1">2026-02-24</h2>
-        <p class="text-body-secondary mb-2">Icons, switch controls, and formatter behavior update.</p>
-        <ul class="mb-0">
-          <li>Added Font Awesome Free icons across the app.</li>
-          <li>Replaced dark-mode button toggles with Bootstrap switch controls.</li>
-          <li>Updated formatter to pretty-format only (JSON or YAML) using Prettier CDN.</li>
-          <li>Replaced URL mode selector with a Bootstrap switch.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card mb-3">
-      <div class="card-body">
-        <h2 class="h5 mb-1">2026-02-24</h2>
-        <p class="text-body-secondary mb-2">Tooling layout and dark mode refresh.</p>
-        <ul class="mb-0">
-          <li>Moved each tool to its own folder with `index.html`, `styles.css`, and `script.js` entry files.</li>
-          <li>Updated tool links to use folder entrypoints (`tools/&lt;tool&gt;/index.html`).</li>
-          <li>Made landing cards fully clickable and removed separate Open Tool buttons.</li>
-          <li>Added persistent dark mode with a top navigation toggle.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card mb-3">
-      <div class="card-body">
-        <h2 class="h5 mb-1">2026-02-24</h2>
-        <p class="text-body-secondary mb-2">Initial scaffold of Mike's Toolbox.</p>
-        <ul class="mb-0">
-          <li>Created landing page (`index.html`) with tool directory cards.</li>
-          <li>Added Base64 encoder/decoder tool.</li>
-          <li>Added JSON/YAML formatter with conversion support using `js-yaml` CDN.</li>
-          <li>Added URL encoder/decoder tool.</li>
-          <li>Added `AGENTS.md` project instructions and initial `README.md` content.</li>
+          <li>Restored dark mode nav control to sun + toggle + moon icon order.</li>
         </ul>
       </div>
     </div>
