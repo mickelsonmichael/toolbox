@@ -27,6 +27,15 @@
       keywords: ['url', 'encode', 'decode', 'percent', 'uri', 'component', 'query', 'escape'],
       dateAdded: '2026-02-24',
     },
+    {
+      id: 'netquality',
+      name: 'Network Quality Monitor',
+      icon: 'fa-solid fa-wave-square',
+      description: 'Probe a server repeatedly and graph packet loss and RTT over time.',
+      href: './tools/netquality/index.html',
+      keywords: ['network', 'ping', 'packet', 'loss', 'latency', 'rtt', 'quality', 'monitor', 'graph'],
+      dateAdded: '2026-02-28',
+    },
   ];
 
   const FAV_KEY = 'toolbox-favorites';
