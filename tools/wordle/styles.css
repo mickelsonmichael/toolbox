@@ -1,0 +1,132 @@
+.wordle-board {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 330px;
+}
+
+.wordle-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.wordle-tile {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-sm);
+  color: var(--bs-body-color);
+  user-select: none;
+}
+
+.wordle-tile.filled {
+  border-color: var(--bs-secondary-color);
+}
+
+.wordle-tile.correct {
+  background-color: #198754;
+  border-color: #198754;
+  color: #fff;
+}
+
+.wordle-tile.present {
+  background-color: #e0a800;
+  border-color: #e0a800;
+  color: #fff;
+}
+
+.wordle-tile.absent {
+  background-color: var(--bs-secondary-bg);
+  border-color: var(--bs-secondary-bg);
+  color: var(--bs-secondary-color);
+}
+
+/* Keyboard */
+.wordle-keyboard {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.wordle-kb-row {
+  display: flex;
+  gap: 5px;
+}
+
+.wordle-key {
+  height: 56px;
+  min-width: 38px;
+  padding: 0 6px;
+  border: none;
+  border-radius: var(--bs-border-radius-sm);
+  background-color: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.wordle-key.wide {
+  min-width: 58px;
+  font-size: 0.75rem;
+}
+
+.wordle-key.correct {
+  background-color: #198754;
+  color: #fff;
+}
+
+.wordle-key.present {
+  background-color: #e0a800;
+  color: #fff;
+}
+
+.wordle-key.absent {
+  background-color: var(--bs-secondary-bg);
+  color: var(--bs-secondary-color);
+}
+
+/* Animations */
+@keyframes pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+@keyframes flip {
+  0%   { transform: rotateX(0); }
+  50%  { transform: rotateX(-90deg); }
+  100% { transform: rotateX(0); }
+}
+
+.wordle-tile.pop {
+  animation: pop 0.1s ease;
+}
+
+.wordle-tile.shake {
+  animation: shake 0.4s ease;
+}
+
+.wordle-tile.flip {
+  animation: flip 0.35s ease forwards;
+}

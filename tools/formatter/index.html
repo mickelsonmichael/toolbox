@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>JSON/YAML Formatter | Mike's Toolbox</title>
+  <title>Code Formatter | Mike's Toolbox</title>
   <script>
     (function () {
       const key = 'toolbox-theme';
@@ -14,60 +14,90 @@
   </script>
   <link href="https://cdn.jsdelivr.net/npm/halfmoon@2.0.2/css/halfmoon.min.css" rel="stylesheet" integrity="sha256-RjeFzczeuZHCyS+Gvz+kleETzBF/o84ZRHukze/yv6o=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="../../assets/site.css">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <toolbox-layout root="../.." main-class="container py-4">
-    <div class="row justify-content-center">
-      <div class="col-12">
-        <h1 class="h3 mb-3"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>JSON/YAML Formatter</h1>
+    <h1 class="h3 mb-3"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Code Formatter</h1>
 
-        <div class="card">
-          <div class="card-body">
-            <div class="row g-3 panel-grid">
-              <div class="col-12 col-lg-6">
-                <div class="panel-block h-100">
-                  <div class="row g-3 mb-3">
-                    <div class="col-12 col-sm-6">
-                      <div class="d-flex align-items-center justify-content-between">
-                        <label class="form-label mb-0" for="formatSwitch">YAML Input</label>
-                        <div class="form-check form-switch m-0">
-                          <input class="form-check-input" type="checkbox" role="switch" id="formatSwitch">
-                        </div>
-                      </div>
-                      <p class="small text-body-secondary mb-0" id="formatHint">JSON mode enabled.</p>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                      <div class="d-flex align-items-center justify-content-between">
-                        <label class="form-label mb-0" for="indentSwitch">4-space indent</label>
-                        <div class="form-check form-switch m-0">
-                          <input class="form-check-input" type="checkbox" role="switch" id="indentSwitch">
-                        </div>
-                      </div>
-                      <p class="small text-body-secondary mb-0">Off uses 2 spaces.</p>
-                    </div>
-                  </div>
+    <div class="card mb-3">
 
-                  <label for="inputText" class="form-label">Input</label>
-                  <textarea id="inputText" class="form-control panel-textarea" rows="14" placeholder="Paste JSON or YAML..."></textarea>
+      <!-- Row 1: language selector + clear -->
+      <div class="d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
+        <select class="form-select form-select-sm w-auto" id="langSelect" aria-label="Language">
+          <option value="auto">Auto-Detect</option>
+          <option value="json">JSON</option>
+          <option value="yaml">YAML</option>
+          <option value="python">Python</option>
+        </select>
+        <button class="btn btn-outline-danger btn-sm" id="clearBtn" type="button">
+          <i class="fa-solid fa-eraser me-1"></i>Clear
+        </button>
+      </div>
 
-                  <div class="d-flex flex-wrap gap-2 mt-3">
-                    <button class="btn btn-primary" id="formatBtn" type="button"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>Pretty Format</button>
-                    <button class="btn btn-outline-danger" id="clearBtn" type="button"><i class="fa-solid fa-eraser me-1"></i>Clear</button>
-                  </div>
-                </div>
-              </div>
+      <!-- Row 2: common whitespace options -->
+      <div class="d-flex flex-wrap align-items-center gap-3 px-3 py-2 border-bottom">
+        <div class="d-flex align-items-center gap-2">
+          <span class="small text-body-secondary">Tabs</span>
+          <div class="form-check form-switch m-0 neutral-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="useSpacesSwitch" checked aria-label="Toggle between tabs and spaces">
+          </div>
+          <span class="small text-body-secondary">Spaces</span>
+        </div>
+        <div class="d-flex align-items-center gap-2" id="spaceCountWrapper">
+          <input type="number" class="form-control form-control-sm space-count-input" id="spaceCount" min="1" max="8" value="2" aria-label="Number of spaces">
+          <span class="small text-body-secondary">spaces</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span class="small text-body-secondary">Trailing newline</span>
+          <div class="form-check form-switch m-0 neutral-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="trailingNewlineSwitch" checked aria-label="Toggle trailing newline">
+          </div>
+        </div>
+      </div>
 
-              <div class="col-12 col-lg-6">
-                <div class="panel-block h-100">
-                  <label for="outputText" class="form-label">Output</label>
-                  <textarea id="outputText" class="form-control panel-textarea" rows="14" readonly></textarea>
-                </div>
-              </div>
-            </div>
+      <!-- Row 3: format-specific options (auto-updates with language) -->
+      <div class="d-flex flex-wrap align-items-center gap-3 px-3 py-2" id="formatControls" hidden>
+        <!-- JSON -->
+        <div class="d-flex align-items-center gap-2" id="minifyToggleRow" hidden>
+          <span class="small text-body-secondary">Minify</span>
+          <div class="form-check form-switch m-0 neutral-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="minifySwitch" aria-label="Toggle JSON minify">
+          </div>
+        </div>
+        <!-- Python -->
+        <div class="d-flex align-items-center gap-2" id="quoteToggleRow" hidden>
+          <span class="small text-body-secondary">Double quotes</span>
+          <div class="form-check form-switch m-0 neutral-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="singleQuoteSwitch" aria-label="Toggle single quotes">
+          </div>
+          <span class="small text-body-secondary">Single quotes</span>
+        </div>
+      </div>
 
-            <p id="status" class="small mt-3 mb-0 text-body-secondary">Ready.</p>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-lg-6">
+        <div class="card overflow-hidden">
+          <div class="card-header fw-semibold d-flex align-items-center gap-2">
+            Input
+            <span id="autoDetectBadge" class="badge text-bg-secondary" hidden></span>
+            <span id="inputError" class="badge text-bg-danger" hidden>Invalid</span>
+          </div>
+          <div class="card-body p-0">
+            <div id="inputEditor"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="card overflow-hidden">
+          <div class="card-header fw-semibold">Output</div>
+          <div class="card-body p-0">
+            <div id="outputEditor"></div>
           </div>
         </div>
       </div>
@@ -78,6 +108,11 @@
   <script src="https://cdn.jsdelivr.net/npm/prettier@3.3.3/plugins/babel.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prettier@3.3.3/plugins/estree.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prettier@3.3.3/plugins/yaml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prettier-plugin-python/dist/index.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/yaml/yaml.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="../../assets/layout.js"></script>
   <script src="../../assets/theme.js"></script>
   <script src="./script.js"></script>

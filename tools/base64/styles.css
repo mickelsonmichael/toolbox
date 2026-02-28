@@ -8,11 +8,12 @@ body {
 }
 
 .panel-textarea {
-  min-height: 22rem;
+  min-height: 32rem;
+  resize: vertical;
 }
 
 @media (max-width: 991.98px) {
   .panel-textarea {
-    min-height: 14rem;
+    min-height: 18rem;
   }
 }

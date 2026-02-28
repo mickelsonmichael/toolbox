@@ -7,12 +7,19 @@ body {
   background: radial-gradient(circle at top, #15324b 0%, #0f172a 70%);
 }
 
-.panel-textarea {
-  min-height: 22rem;
+.space-count-input {
+  width: 5rem;
+}
+
+.CodeMirror {
+  height: 32rem;
+  font-size: 0.875rem;
+  font-family: var(--bs-font-monospace, monospace);
+  border: none;
 }
 
 @media (max-width: 991.98px) {
-  .panel-textarea {
-    min-height: 14rem;
+  .CodeMirror {
+    height: 18rem;
   }
 }

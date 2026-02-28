@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wordle | Mike's Toolbox</title>
+  <script>
+    (function () {
+      const key = 'toolbox-theme';
+      const saved = localStorage.getItem(key);
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-bs-theme', saved || (prefersDark ? 'dark' : 'light'));
+    })();
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/halfmoon@2.0.2/css/halfmoon.min.css" rel="stylesheet" integrity="sha256-RjeFzczeuZHCyS+Gvz+kleETzBF/o84ZRHukze/yv6o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="../../assets/site.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <toolbox-layout root="../.." main-class="container py-4">
+    <div class="text-center mb-4">
+      <h1 class="h3 mb-1"><i class="fa-solid fa-spell-check me-2"></i>Wordle</h1>
+      <p class="text-body-secondary small mb-0">Guess the 5-letter word in 6 tries.</p>
+    </div>
+
+    <div id="message" class="alert text-center py-2 mb-3" role="alert" hidden></div>
+
+    <div id="board" class="wordle-board mx-auto mb-4"></div>
+
+    <div id="keyboard" class="wordle-keyboard mx-auto mb-4"></div>
+
+    <div class="text-center">
+      <button id="newGameBtn" class="btn btn-outline-primary btn-sm">
+        <i class="fa-solid fa-rotate-right me-1"></i>New Game
+      </button>
+    </div>
+  </toolbox-layout>
+
+  <script src="../../assets/layout.js"></script>
+  <script src="../../assets/theme.js"></script>
+  <script src="./wordle.js"></script>
+</body>
+</html>
