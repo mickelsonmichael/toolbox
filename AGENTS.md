@@ -5,7 +5,7 @@ Mike's Toolbox is a pure HTML/CSS/JavaScript utility site that runs fully in the
 ## Project Rules
 - Keep the app static and browser-only. No server required.
 - Prefer CDN-hosted libraries when practical.
-- Use reusable UI components through Bootstrap.
+- Use reusable UI components through Halfmoon (Bootstrap v5-compatible drop-in; CDN: halfmoon@2.0.2).
 - Keep each tool in its own folder under `tools/` with `index.html`, `styles.css`, and `script.js`.
 - Update `changelog.html` whenever behavior or UI changes.
 
