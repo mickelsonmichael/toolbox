@@ -20,9 +20,12 @@
       <a class="navbar-brand fw-semibold" href="${homeHref}"><i class="fa-solid fa-toolbox me-2"></i>${brand}</a>
       <div class="d-flex align-items-center gap-3">
         ${showChangelog ? `<a class="link-body-emphasis text-decoration-none small" href="${changelogHref}"><i class="fa-solid fa-clock-rotate-left me-1"></i>Changelog</a>` : ''}
-        <div class="form-check form-switch theme-switch d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2">
           <i class="fa-solid fa-sun small text-body-secondary" aria-hidden="true"></i>
-          <input class="form-check-input" type="checkbox" role="switch" id="themeSwitch" aria-label="Toggle dark mode">
+          <div class="form-check form-switch theme-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="themeSwitch" aria-label="Toggle dark mode">
+          </div>
+          <i class="fa-solid fa-moon small text-body-secondary" aria-hidden="true"></i>
         </div>
       </div>
     </div>

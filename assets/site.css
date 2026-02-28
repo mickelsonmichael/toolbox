@@ -22,7 +22,7 @@ body {
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.tool-link:hover .tool-card,
+.tool-card-wrapper:hover .tool-card,
 .tool-link:focus-visible .tool-card {
   transform: translateY(-4px);
   box-shadow: 0 0.8rem 1.4rem var(--toolbox-glow);
@@ -32,12 +32,44 @@ body {
   outline: none;
 }
 
+.tool-card-wrapper {
+  position: relative;
+}
+
+.fav-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 1;
+  padding: 0.25rem 0.375rem;
+  line-height: 1;
+  border: none;
+  background: transparent;
+  color: var(--bs-secondary-color);
+  border-radius: var(--bs-border-radius-sm);
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.tool-card-wrapper:hover .fav-btn,
+.fav-btn.fav-active,
+.fav-btn:focus-visible {
+  opacity: 1;
+}
+
+.fav-btn.fav-active,
+.fav-btn:hover {
+  color: #dc3545;
+}
+
 .theme-switch {
   margin-bottom: 0;
+  padding-left: 2em;
 }
 
 .theme-switch .form-check-input {
   cursor: pointer;
+  margin-left: -2em;
 }
 
 .theme-switch .form-check-label {
