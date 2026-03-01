@@ -1,86 +1,71 @@
-const input = document.getElementById('inputText');
-const output = document.getElementById('outputText');
-const modeSwitch = document.getElementById('urlModeSwitch');
-const operationSwitch = document.getElementById('operationSwitch');
-const modeHint = document.getElementById('modeHint');
-const status = document.getElementById('status');
+const plainInput   = document.getElementById('plainInput');
+const encodedInput = document.getElementById('encodedInput');
+const plainError   = document.getElementById('plainError');
+const encodedError = document.getElementById('encodedError');
 
-function setStatus(message, tone = 'success') {
-  status.textContent = message;
-  status.className = 'small mb-0';
-  if (tone === 'error') {
-    status.classList.add('text-danger');
-    return;
-  }
-  if (tone === 'neutral') {
-    status.classList.add('text-body-secondary');
-    return;
-  }
-  status.classList.add('text-success');
-}
+let updating = false;
 
-function updateModeHint() {
-  if (modeSwitch.checked) {
-    modeHint.textContent = 'Using full URL mode (`encodeURI` / `decodeURI`).';
-    return;
-  }
-  modeHint.textContent = 'Using component mode (`encodeURIComponent` / `decodeURIComponent`).';
-}
-
-function getCodec() {
-  if (modeSwitch.checked) {
-    return { encode: encodeURI, decode: decodeURI };
-  }
-  return { encode: encodeURIComponent, decode: decodeURIComponent };
-}
-
-function processInput() {
-  if (!input.value) {
-    output.value = '';
-    setStatus('Ready.', 'neutral');
-    return;
-  }
-
-  if (operationSwitch.checked) {
+plainInput.addEventListener('input', () => {
+  if (updating) return;
+  updating = true;
+  if (!plainInput.value) {
+    encodedInput.value  = '';
+    plainError.hidden   = true;
+  } else {
     try {
-      const { decode } = getCodec();
-      output.value = decode(input.value);
-      setStatus('Decoded successfully.');
-    } catch (error) {
-      setStatus('Invalid encoded input.', 'error');
+      encodedInput.value  = encodeURIComponent(plainInput.value);
+      plainError.hidden   = true;
+    } catch {
+      encodedInput.value  = '';
+      plainError.hidden   = false;
     }
-    return;
   }
+  updating = false;
+});
 
-  try {
-    const { encode } = getCodec();
-    output.value = encode(input.value);
-    setStatus('Encoded successfully.');
-  } catch (error) {
-    setStatus('Unable to encode input.', 'error');
+encodedInput.addEventListener('input', () => {
+  if (updating) return;
+  updating = true;
+  if (!encodedInput.value) {
+    plainInput.value   = '';
+    encodedError.hidden = true;
+  } else {
+    try {
+      plainInput.value   = decodeURIComponent(encodedInput.value);
+      encodedError.hidden = true;
+    } catch {
+      plainInput.value   = '';
+      encodedError.hidden = false;
+    }
   }
+  updating = false;
+});
+
+function copyWithFeedback(btn, getText) {
+  const text = getText();
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const icon = btn.querySelector('i');
+    icon.className = 'fa-solid fa-check me-1';
+    btn.disabled = true;
+    setTimeout(() => {
+      icon.className = 'fa-regular fa-copy me-1';
+      btn.disabled = false;
+    }, 1500);
+  });
 }
 
-modeSwitch.addEventListener('change', () => {
-  updateModeHint();
-  processInput();
+document.getElementById('copyPlain').addEventListener('click', function () {
+  copyWithFeedback(this, () => plainInput.value);
 });
-operationSwitch.addEventListener('change', processInput);
-input.addEventListener('input', processInput);
 
-document.getElementById('swapBtn').addEventListener('click', () => {
-  const temp = input.value;
-  input.value = output.value;
-  output.value = temp;
-  processInput();
-  setStatus('Input and output swapped. Auto-processed with current mode.');
+document.getElementById('copyEncoded').addEventListener('click', function () {
+  copyWithFeedback(this, () => encodedInput.value);
 });
 
 document.getElementById('clearBtn').addEventListener('click', () => {
-  input.value = '';
-  output.value = '';
-  setStatus('Cleared.', 'neutral');
+  plainInput.value    = '';
+  encodedInput.value  = '';
+  plainError.hidden   = true;
+  encodedError.hidden = true;
 });
-
-updateModeHint();
-processInput();
