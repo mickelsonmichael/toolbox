@@ -50,6 +50,16 @@
       dateAdded: '2026-02-28',
       category: 'fun',
     },
+    {
+      id: 'choicepicker',
+      name: 'Choice Picker',
+      icon: 'fa-solid fa-rotate',
+      description: 'Add choices, spin the wheel, and let fate decide.',
+      href: './tools/choicepicker/index.html',
+      keywords: ['choice', 'picker', 'wheel', 'spin', 'random', 'decide', 'fortune', 'luck', 'game'],
+      dateAdded: '2026-02-28',
+      category: 'fun',
+    },
   ];
 
   const FAV_KEY = 'toolbox-favorites';

@@ -1,0 +1,108 @@
+body {
+  background:
+    radial-gradient(ellipse at 70% 25%, rgba(168, 85, 247, 0.13) 0%, transparent 65%),
+    radial-gradient(ellipse at 20% 80%, rgba(249, 115, 22, 0.11) 0%, transparent 65%);
+}
+
+[data-bs-theme="dark"] body {
+  background:
+    radial-gradient(ellipse at 70% 25%, rgba(168, 85, 247, 0.08) 0%, transparent 65%),
+    radial-gradient(ellipse at 20% 80%, rgba(249, 115, 22, 0.07) 0%, transparent 65%);
+}
+
+.letter-spacing-1 {
+  letter-spacing: 0.05em;
+}
+
+/* ── Wheel ───────────────────────────────────────────────────────────────── */
+
+.wheel-container {
+  max-width: 420px;
+  width: 100%;
+}
+
+#wheelCanvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.18));
+}
+
+/* ── Choice list ─────────────────────────────────────────────────────────── */
+
+#choiceList .list-group-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.75rem;
+}
+
+.choice-color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.choice-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.choice-remove-btn {
+  background: none;
+  border: none;
+  color: var(--bs-secondary-color);
+  padding: 0 0.2rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  line-height: 1;
+  opacity: 0.45;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.choice-remove-btn:hover {
+  opacity: 1;
+  color: var(--bs-danger);
+}
+
+/* ── Result card ─────────────────────────────────────────────────────────── */
+
+.result-card {
+  padding: 1.1rem 2rem;
+  border-radius: 0.75rem;
+  background: var(--bs-body-bg);
+  border: 2px solid var(--bs-border-color);
+  min-width: 200px;
+  animation: resultFadeIn 0.35s ease;
+}
+
+.result-trophy {
+  font-size: 1.8rem;
+  color: #ffc107;
+  margin-bottom: 0.15rem;
+}
+
+.result-label {
+  font-size: 0.72rem;
+  color: var(--bs-secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 0.2rem;
+}
+
+.result-text {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--bs-body-color);
+  word-break: break-word;
+}
+
+@keyframes resultFadeIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
