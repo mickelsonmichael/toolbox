@@ -148,5 +148,12 @@
 
   const searchInput = document.getElementById('toolSearch');
   render('');
+
+  const loader = document.getElementById('page-loader');
+  if (loader) {
+    loader.classList.add('fade-out');
+    loader.addEventListener('transitionend', () => loader.remove(), { once: true });
+  }
+
   searchInput.addEventListener('input', () => render(searchInput.value.trim()));
 })();

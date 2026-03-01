@@ -10,6 +10,9 @@ Mike's Toolbox is a pure HTML/CSS/JavaScript utility site that runs fully in the
 - Keep each tool in its own folder under `tools/` with `index.html`, `styles.css`, and `script.js`.
 - Update `changelog.html` whenever behavior or UI changes.
 - When adding new tools, always append to the end of the list. Users will expect the tools to be in certain spots
+- There are two categories of "tool", a tool and a game/fun
+  - Tools are utilities for formatting, debugging, etc.
+  - Games and fun are literal games, but could also be tools related to games (like a RuneScape tool)
 
 ## Current Tools
 
