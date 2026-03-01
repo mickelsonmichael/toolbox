@@ -11,6 +11,10 @@ body {
   width: 5rem;
 }
 
+#inputError[role="button"] {
+  cursor: pointer;
+}
+
 .CodeMirror {
   height: 32rem;
   font-size: 0.875rem;

@@ -31,7 +31,6 @@
           <option value="auto">Auto-Detect</option>
           <option value="json">JSON</option>
           <option value="yaml">YAML</option>
-          <option value="python">Python</option>
         </select>
         <button class="btn btn-outline-danger btn-sm" id="clearBtn" type="button">
           <i class="fa-solid fa-eraser me-1"></i>Clear
@@ -60,16 +59,16 @@
       </div>
 
       <!-- Row 3: format-specific options (auto-updates with language) -->
-      <div class="d-flex flex-wrap align-items-center gap-3 px-3 py-2" id="formatControls" hidden>
+      <div class="d-none flex-wrap align-items-center gap-3 px-3 py-2" id="formatControls">
         <!-- JSON -->
-        <div class="d-flex align-items-center gap-2" id="minifyToggleRow" hidden>
+        <div class="d-none align-items-center gap-2" id="minifyToggleRow">
           <span class="small text-body-secondary">Minify</span>
           <div class="form-check form-switch m-0 neutral-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="minifySwitch" aria-label="Toggle JSON minify">
           </div>
         </div>
-        <!-- Python -->
-        <div class="d-flex align-items-center gap-2" id="quoteToggleRow" hidden>
+        <!-- YAML -->
+        <div class="d-none align-items-center gap-2" id="quoteToggleRow">
           <span class="small text-body-secondary">Double quotes</span>
           <div class="form-check form-switch m-0 neutral-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="singleQuoteSwitch" aria-label="Toggle single quotes">
@@ -83,10 +82,13 @@
     <div class="row g-3">
       <div class="col-12 col-lg-6">
         <div class="card overflow-hidden">
-          <div class="card-header fw-semibold d-flex align-items-center gap-2">
-            Input
-            <span id="autoDetectBadge" class="badge text-bg-secondary" hidden></span>
-            <span id="inputError" class="badge text-bg-danger" hidden>Invalid</span>
+          <div class="card-header fw-semibold d-flex align-items-center justify-content-between">
+            <span class="d-flex align-items-center gap-2">
+              Input
+              <span id="autoDetectBadge" class="badge text-bg-secondary" hidden></span>
+              <span id="inputError" class="badge text-bg-danger" role="button" hidden>Invalid</span>
+            </span>
+            <button class="btn btn-outline-secondary btn-sm py-0" id="copyInputBtn" type="button"><i class="fa-regular fa-copy me-1"></i>Copy</button>
           </div>
           <div class="card-body p-0">
             <div id="inputEditor"></div>
@@ -95,24 +97,44 @@
       </div>
       <div class="col-12 col-lg-6">
         <div class="card overflow-hidden">
-          <div class="card-header fw-semibold">Output</div>
+          <div class="card-header fw-semibold d-flex align-items-center justify-content-between">
+            Output
+            <button class="btn btn-outline-secondary btn-sm py-0" id="copyOutputBtn" type="button"><i class="fa-regular fa-copy me-1"></i>Copy</button>
+          </div>
           <div class="card-body p-0">
             <div id="outputEditor"></div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Error detail modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="errorModalLabel">
+              <i class="fa-solid fa-triangle-exclamation text-danger me-2"></i>Format Error
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <pre id="errorDetail" class="mb-0 small" style="white-space:pre-wrap;word-break:break-all"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </toolbox-layout>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/prettier@3.3.3/standalone.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prettier@3.3.3/plugins/babel.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prettier@3.3.3/plugins/estree.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prettier@3.3.3/plugins/yaml.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prettier-plugin-python/dist/index.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/yaml/yaml.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="../../assets/layout.js"></script>
   <script src="../../assets/theme.js"></script>
   <script src="./script.js"></script>

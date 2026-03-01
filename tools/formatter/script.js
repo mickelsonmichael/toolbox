@@ -10,7 +10,10 @@ const formatControls       = document.getElementById('formatControls');
 const minifyToggleRow      = document.getElementById('minifyToggleRow');
 const quoteToggleRow       = document.getElementById('quoteToggleRow');
 const inputError           = document.getElementById('inputError');
+const errorDetail          = document.getElementById('errorDetail');
 const autoDetectBadge      = document.getElementById('autoDetectBadge');
+const copyInputBtn         = document.getElementById('copyInputBtn');
+const copyOutputBtn        = document.getElementById('copyOutputBtn');
 
 // ── CodeMirror editors ────────────────────────────────────────────────────────
 
@@ -42,12 +45,11 @@ new MutationObserver(() => {
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 const MODES = {
-  json:   { name: 'javascript', json: true },
-  yaml:   'text/x-yaml',
-  python: 'text/x-python',
+  json: { name: 'javascript', json: true },
+  yaml: 'text/x-yaml',
 };
 
-const LANG_NAMES = { json: 'JSON', yaml: 'YAML', python: 'Python' };
+const LANG_NAMES = { json: 'JSON', yaml: 'YAML' };
 
 function setMode(lang) {
   const mode = MODES[lang] ?? 'text/plain';
@@ -59,22 +61,26 @@ function detectLanguage(text) {
   const t = text.trim();
   if (!t) return 'json';
   try { JSON.parse(t); return 'json'; } catch {}
-  if (/^[ \t]*(def |class |import |from |async def |@\w+|print\(|if __name__)/m.test(t)) return 'python';
   return 'yaml';
 }
 
 // ── Option visibility ─────────────────────────────────────────────────────────
+
+function setVisible(el, show) {
+  el.classList.toggle('d-none', !show);
+  el.classList.toggle('d-flex', show);
+}
 
 function updateCommonOptions() {
   spaceCount.disabled = !useSpacesSwitch.checked;
 }
 
 function updateFormatSpecific(lang) {
-  const isJSON   = lang === 'json';
-  const isPython = lang === 'python';
-  minifyToggleRow.hidden = !isJSON;
-  quoteToggleRow.hidden  = !isPython;
-  formatControls.hidden  = !isJSON && !isPython;
+  const isJSON = lang === 'json';
+  const isYAML = lang === 'yaml';
+  setVisible(minifyToggleRow, isJSON);
+  setVisible(quoteToggleRow, isYAML);
+  setVisible(formatControls, isJSON || isYAML);
 }
 
 function updateOptions() {
@@ -103,7 +109,10 @@ async function prettyFormat() {
   if (!value.trim()) {
     outputEditor.setValue('');
     inputError.hidden = true;
-    if (selected === 'auto') autoDetectBadge.hidden = true;
+    if (selected === 'auto') {
+      autoDetectBadge.hidden = true;
+      updateFormatSpecific(null);
+    }
     return;
   }
 
@@ -113,28 +122,28 @@ async function prettyFormat() {
     lang = detectLanguage(value);
     autoDetectBadge.textContent = `Auto detected: ${LANG_NAMES[lang]}`;
     autoDetectBadge.hidden      = false;
-    updateFormatSpecific(lang);
   }
 
   setMode(lang);
+  updateFormatSpecific(lang);
 
   let formatted;
   if (lang === 'json' && minifySwitch.checked) {
     formatted = JSON.stringify(JSON.parse(value));
-  } else if (lang === 'python') {
+  } else if (lang === 'json') {
     formatted = await prettier.format(value, {
-      parser:      'python',
+      parser:  'json',
+      useTabs,
+      tabWidth,
+      plugins: [prettierPlugins.babel, prettierPlugins.estree],
+    });
+  } else if (lang === 'yaml') {
+    formatted = await prettier.format(value, {
+      parser:      'yaml',
       useTabs,
       tabWidth,
       singleQuote: singleQ,
-      plugins:     [prettierPluginPython],
-    });
-  } else {
-    formatted = await prettier.format(value, {
-      parser:  lang,
-      useTabs,
-      tabWidth,
-      plugins: [prettierPlugins.babel, prettierPlugins.estree, prettierPlugins.yaml],
+      plugins:     [prettierPlugins.yaml],
     });
   }
 
@@ -143,6 +152,12 @@ async function prettyFormat() {
   outputEditor.setValue(formatted);
   inputError.hidden = true;
 }
+
+// ── Error modal ───────────────────────────────────────────────────────────────
+
+const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
+inputError.addEventListener('click', () => errorModal.show());
 
 // ── Auto-format (debounced) ───────────────────────────────────────────────────
 
@@ -153,7 +168,8 @@ function scheduleFormat() {
   debounceTimer = setTimeout(async () => {
     try {
       await prettyFormat();
-    } catch {
+    } catch (e) {
+      errorDetail.textContent = e?.message ?? String(e);
       inputError.hidden = false;
     }
   }, 400);
@@ -175,6 +191,30 @@ document.getElementById('clearBtn').addEventListener('click', () => {
   inputError.hidden      = true;
   autoDetectBadge.hidden = true;
   updateFormatSpecific(langSelect.value === 'auto' ? null : langSelect.value);
+});
+
+// ── Copy buttons ──────────────────────────────────────────────────────────────
+
+function copyWithFeedback(btn, getText) {
+  const text = getText();
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const icon = btn.querySelector('i');
+    icon.className = 'fa-solid fa-check me-1';
+    btn.disabled = true;
+    setTimeout(() => {
+      icon.className = 'fa-regular fa-copy me-1';
+      btn.disabled = false;
+    }, 1500);
+  });
+}
+
+copyInputBtn.addEventListener('click', function () {
+  copyWithFeedback(this, () => inputEditor.getValue());
+});
+
+copyOutputBtn.addEventListener('click', function () {
+  copyWithFeedback(this, () => outputEditor.getValue());
 });
 
 // ── Init ──────────────────────────────────────────────────────────────────────
